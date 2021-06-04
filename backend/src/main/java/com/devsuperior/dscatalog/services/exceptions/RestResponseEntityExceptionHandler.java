@@ -12,10 +12,25 @@ import java.util.Date;
 public class RestResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> entityNotFoundHandling(ResourceNotFoundException exception, WebRequest request){
+    public ResponseEntity<?> resourceNotFoundHandling(ResourceNotFoundException exception, WebRequest request){
         ErrorDetails errorDetails =
-                new ErrorDetails(HttpStatus.NOT_FOUND.value(), new Date(), exception.getMessage(), request.getDescription(false));
+                new ErrorDetails(
+                        HttpStatus.NOT_FOUND.value(),
+                        new Date(),
+                        exception.getMessage(),
+                        request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataBaseException.class)
+    public ResponseEntity<?> dataBaseHandling(DataBaseException exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(
+                        HttpStatus.BAD_REQUEST.value(),
+                        new Date(),
+                        exception.getMessage(),
+                        request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
