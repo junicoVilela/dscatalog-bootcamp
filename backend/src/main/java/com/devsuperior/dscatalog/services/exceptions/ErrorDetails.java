@@ -7,14 +7,17 @@ public class ErrorDetails {
     private int statusCode;
     private Date timestamp;
     private String message;
-    private String details;
+    private String path;
 
-    public ErrorDetails(int statusCode, Date timestamp, String message, String details) {
+    public ErrorDetails() {
+    }
+
+    public ErrorDetails(int statusCode, Date timestamp, String message, String path) {
         super();
         this.statusCode = statusCode;
         this.timestamp = timestamp;
         this.message = message;
-        this.details = details;
+        this.path = path;
     }
 
     public Date getTimestamp() {
@@ -33,12 +36,12 @@ public class ErrorDetails {
         this.message = message;
     }
 
-    public String getDetails() {
-        return details;
+    public String getPath() {
+        return path;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int getStatusCode() {

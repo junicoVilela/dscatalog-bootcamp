@@ -1,6 +1,5 @@
 package com.devsuperior.dscatalog.resources;
 
-import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.dto.UserDTO;
 import com.devsuperior.dscatalog.dto.UserInsertDTO;
 import com.devsuperior.dscatalog.services.UserService;
@@ -15,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/products")
+@RequestMapping(value = "/users")
 public class UserResource {
 
     private UserService userService;
