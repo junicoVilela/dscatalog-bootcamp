@@ -6,16 +6,18 @@ public class ErrorDetails {
 
     private int statusCode;
     private Date timestamp;
+    private String error;
     private String message;
     private String path;
 
     public ErrorDetails() {
     }
 
-    public ErrorDetails(int statusCode, Date timestamp, String message, String path) {
+    public ErrorDetails(int statusCode, Date timestamp, String error, String message, String path) {
         super();
         this.statusCode = statusCode;
         this.timestamp = timestamp;
+        this.error = error;
         this.message = message;
         this.path = path;
     }
@@ -50,5 +52,13 @@ public class ErrorDetails {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

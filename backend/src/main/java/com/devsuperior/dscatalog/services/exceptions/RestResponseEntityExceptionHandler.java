@@ -1,5 +1,7 @@
 package com.devsuperior.dscatalog.services.exceptions;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -19,6 +21,7 @@ public class RestResponseEntityExceptionHandler {
                 new ErrorDetails(
                         HttpStatus.NOT_FOUND.value(),
                         new Date(),
+                        "Resource not found",
                         exception.getMessage(),
                         request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
@@ -30,6 +33,7 @@ public class RestResponseEntityExceptionHandler {
                 new ErrorDetails(
                         HttpStatus.BAD_REQUEST.value(),
                         new Date(),
+                        "Database exception",
                         exception.getMessage(),
                         request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
@@ -40,6 +44,7 @@ public class RestResponseEntityExceptionHandler {
         ValidationError errorDetails = new ValidationError();
         errorDetails.setStatusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
         errorDetails.setTimestamp(new Date());
+        errorDetails.setError("Validation exception");
         errorDetails.setMessage(exception.getMessage());
         errorDetails.setPath(request.getDescription(false));
 
@@ -53,8 +58,49 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandling(Exception exception, WebRequest request){
         ErrorDetails errorDetails =
-                new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), new Date(), exception.getMessage(), request.getDescription(false));
+                new ErrorDetails(
+                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        new Date(),
+                        "Generic error",
+                        exception.getMessage(),
+                        request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AmazonServiceException.class)
+    public ResponseEntity<?> amazonService(AmazonServiceException exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(
+                        HttpStatus.BAD_REQUEST.value(),
+                        new Date(),
+                        "AWS Exception",
+                        exception.getMessage(),
+                        request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AmazonClientException.class)
+    public ResponseEntity<?> amazonClient(AmazonClientException exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(
+                        HttpStatus.BAD_REQUEST.value(),
+                        new Date(),
+                        "AWS Exception",
+                        exception.getMessage(),
+                        request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> amazonClient(IllegalArgumentException exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(
+                        HttpStatus.BAD_REQUEST.value(),
+                        new Date(),
+                        "Bad Request",
+                        exception.getMessage(),
+                        request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
 }
