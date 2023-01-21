@@ -1,7 +1,5 @@
 package com.devsuperior.dscatalog.services.exceptions;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -67,7 +65,7 @@ public class RestResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(AmazonServiceException.class)
+    /*@ExceptionHandler(AmazonServiceException.class)
     public ResponseEntity<?> amazonService(AmazonServiceException exception, WebRequest request){
         ErrorDetails errorDetails =
                 new ErrorDetails(
@@ -89,7 +87,7 @@ public class RestResponseEntityExceptionHandler {
                         exception.getMessage(),
                         request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> amazonClient(IllegalArgumentException exception, WebRequest request){
