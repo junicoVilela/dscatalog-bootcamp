@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.tests.services;
 
+import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.ProductService;
@@ -16,9 +17,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,9 +59,61 @@ public class ProductServiceTests {
         when(productRepository.findById(existingId)).thenReturn(Optional.of(product));
         when(productRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
+        when(productRepository.getOne(existingId)).thenReturn(product);
+        doThrow(EntityNotFoundException.class).when(productRepository).getOne(nonExistingId);
+
         doNothing().when(productRepository).deleteById(existingId);
         doThrow(EmptyResultDataAccessException.class).when(productRepository).deleteById(nonExistingId);
         doThrow(DataIntegrityViolationException.class).when(productRepository).deleteById(dependentId);
+    }
+
+    @Test
+    public void updateShouldThrowResourceNotFoundExceptionDoesNotExist() {
+        ProductDTO dto = new ProductDTO();
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            productService.update(nonExistingId, dto);
+        });
+
+    }
+
+    @Test
+    public void updateShouldReturnProductDTOWhenIdExists() {
+        ProductDTO dto = new ProductDTO();
+
+        ProductDTO result = productService.update(existingId, dto);
+
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void findByIdShouldThrowResourceNotFoundExceptionDoesNotExist() {
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            productService.findById(nonExistingId);
+        });
+
+    }
+
+    @Test
+    public void findByIdShouldReturnProductDTOWhenIdExists() {
+        ProductDTO result = productService.findById(existingId);
+
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void findAllPagedShoudReturnPage() {
+        Long categoryId = 0L;
+        String name = "";
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        Page<ProductDTO> result = productService.findAllPaged(categoryId, name, pageRequest);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isEmpty());
+
+        verify(productRepository, times(1)).find(null, name, pageRequest);
+
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.tests.repositories;
 
+import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.tests.factory.ProductFactory;
@@ -12,7 +13,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -26,14 +28,41 @@ public class ProductRepositoryTests {
     private long countTotalProducts;
     private long countPCGamerProducts;
     private PageRequest pageRequest;
+    private long countCategory3Products;
 
     @BeforeEach
     void setup() throws Exception {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalProducts = 25L;
-        countPCGamerProducts=21L;
+        countPCGamerProducts = 21L;
+        countCategory3Products = 23L;
         pageRequest = PageRequest.of(0, 10);
+    }
+
+    @Test
+    public void findShouldReturnOnlySelectedCategoryWhenCategoryInformed() {
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category(3L, null));
+
+        Page<Product> result = productRepository.find(categories, "", pageRequest);
+
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(countCategory3Products, result.getTotalElements());
+
+    }
+
+    @Test
+    public void findShouldReturnAllProductsWhenCategoryNotInformed() {
+
+        List<Category> categories = null;
+
+        Page<Product> result = productRepository.find(categories, "", pageRequest);
+
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(countTotalProducts, result.getTotalElements());
+
     }
 
     @Test
