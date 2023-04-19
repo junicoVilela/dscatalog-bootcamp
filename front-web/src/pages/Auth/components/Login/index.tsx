@@ -49,16 +49,16 @@ const Login = () => {
                     placeholder="Email"
                     name="username"
                     ref={register({
-                      required: "Campo obrigatório",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Email inválido"
-                      }
+                        required: "Campo inválido",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "Email inválido",
+                        },
                     })}
                 />
                 {errors.username && (
                     <div className="invalid-feedback d-block">
-                        Campo inválido
+                        {errors.username.message}
                     </div>
                 )}
             </div>
@@ -72,7 +72,7 @@ const Login = () => {
                 />
                 {errors.password && (
                     <div className="invalid-feedback d-block">
-                        Campo inválido
+                        {errors.password.message}
                     </div>
                 )}
             </div>
