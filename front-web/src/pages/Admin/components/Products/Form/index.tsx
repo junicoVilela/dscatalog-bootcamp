@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import './styles.scss'
 import BaseForm from "../../BaseForm";
-import {makeRequest} from "../../../../../core/utils/request";
+import {makePrivateRequest, makeRequest} from "../../../../../core/utils/request";
 
 type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
@@ -36,7 +36,7 @@ const Form = () => {
             categories: [{ id: formData.category }]
         }
 
-        makeRequest({url: '/products', method:'POST', data: payload})
+        makePrivateRequest({url: '/products', method:'POST', data: payload})
             .then(() => {
                 setFormData({name: '', category: '', price:'', description:''})
             });
