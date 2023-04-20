@@ -17,7 +17,7 @@ const Auth = () => (
         </div>
         <div className="auth-content">
             <Switch>
-                <Route path="/admin/auth/login">0180061078	5B1192591	10/07/2022	271070	31/10/2022	138,42
+                <Route path="/admin/auth/login">
                     <Login />
                 </Route>
                 <Route path="/admin/auth/register">
