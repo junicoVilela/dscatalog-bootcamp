@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, NavLink, useLocation} from 'react-router-dom'
 import './styles.scss';
-import {getAccessTokenDecoded, logout} from "../../utils/auth";
+import { getAccessTokenDecoded, logout } from "../../utils/auth";
 
 
 const Navbar = () => {
