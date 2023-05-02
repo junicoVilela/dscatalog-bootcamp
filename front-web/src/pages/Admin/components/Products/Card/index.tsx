@@ -1,23 +1,29 @@
 import React from "react";
 import './styles.scss';
-import ProductPrice from "../../../../../core/components/ProductPrice"; 
+import ProductPrice from "../../../../../core/components/ProductPrice";
+import { Product } from "../../../../../core/types/Product";
 
-const Card = () => {
+type Props = {
+    product: Product;
+}
+
+const Card = ({ product }: Props) => {
   return (
       <div className="card-base product-card-admin">
           <div className="row">
               <div className="col-2 text-center border-end py-3">
-                  <img src="https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/3-big.jpg"
-                      alt="imagem testes"
+                  <img
+                      src={product.imgUrl}
+                      alt={product.name}
                       className="product-card-image-admin"
                   />
               </div>
               <div className="col-7 py-3">
-                  <h3 className="product-card-name-admin">Computador i7</h3>
-                  <ProductPrice price={40.5} />
+                  <h3 className="product-card-name-admin">{product.name}</h3>
+                  <ProductPrice price={product.price} />
                   <div>
-                      <span className="badge bg-secondary me-1">Categoria 1</span>
-                      <span className="badge bg-secondary ">Categoria 2</span>
+                    <span className="badge bg-secondary me-1">Categoria 01</span>
+                    <span className="badge bg-secondary me-1">Categoria 02</span>
                   </div>
               </div>
               <div className="col-3 py-3 pr-5">
