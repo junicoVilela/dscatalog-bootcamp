@@ -7,8 +7,10 @@ import { useForm, Controller } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import Select from 'react-select';
 import { Category } from "core/types/Product";
+import PriceField from "./PriceField";
+import ImageUpload from "../ImageUpload";
 
-type FormState = {
+export type FormState = {
     name?: string
     price?: string
     description?: string
@@ -99,6 +101,7 @@ const Form = () => {
                                 getOptionValue={ (option: Category) => String(option.id) }
                                 classNamePrefix="categories-select"
                                 placeholder="Categorias"
+                                defaultValue=""
                                 isMulti
                             />
                             {errors.categories && (
@@ -108,13 +111,7 @@ const Form = () => {
                             )}
                         </div>
                         <div className="mb-5">
-                            <input
-                                ref={register({required: "Campo obrigatório"})}
-                                name="price"
-                                type="number"
-                                className="form-control input-base"
-                                placeholder="Preço"
-                            />
+                            <PriceField control={control}/>
                             {errors.price && (
                                 <div className="invalid-feedback d-block">
                                     {errors.price.message}
@@ -122,18 +119,7 @@ const Form = () => {
                             )}
                         </div>
                         <div className="mb-5">
-                            <input
-                                ref={register({required: "Campo obrigatório"})}
-                                name="imgUrl"
-                                type="text"
-                                className="form-control input-base"
-                                placeholder="Imagem do produto"
-                            />
-                            {errors.imgUrl && (
-                                <div className="invalid-feedback d-block">
-                                    {errors.imgUrl.message}
-                                </div>
-                            )}
+                            <ImageUpload />
                         </div>
                     </div>
                     <div className="col-6">
