@@ -31,7 +31,7 @@ const Card = ({ product, onRemove }: Props) => {
               <div className="col-3 py-3 pr-5">
                   <Link to={`/admin/products/${product.id}`}
                       type="button"
-                      className="btn btn-outline-primary btn-block border-radius-10 mb-3 btn-edit"
+                      className="btn btn-outline-primary btn-block border-radius-10 mb-3 btn-outline-secondary"
                   >
                     EDITAR
                   </Link> <br />
